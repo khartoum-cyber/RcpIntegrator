@@ -19,7 +19,7 @@ namespace RcpIntegrator.Tests
             var service = new WorkDayService();
             var parser = new FakeParser(Array.Empty<WorkDay>());
 
-            Assert.Throws<ArgumentNullException>(() => service.LoadUnique(null!, parser));
+            Assert.Throws<ArgumentNullException>(() => service.LoadUnique((null!, parser)));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace RcpIntegrator.Tests
             var service = new WorkDayService();
             using var ms = new MemoryStream();
 
-            Assert.Throws<ArgumentNullException>(() => service.LoadUnique(ms, null!));
+            Assert.Throws<ArgumentNullException>(() => service.LoadUnique((ms, null!)));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace RcpIntegrator.Tests
             var service = new WorkDayService();
             using var ms = new MemoryStream();
 
-            var result = service.LoadUnique(ms, parser).ToList();
+            var result = service.LoadUnique((ms, parser)).ToList();
 
             Assert.That(result, Has.Exactly(1).Items);
             Assert.That(w1, Is.SameAs(result[0])); // TryAdd keeps first occurrence
@@ -64,7 +64,7 @@ namespace RcpIntegrator.Tests
             var service = new WorkDayService();
             using var ms = new MemoryStream();
 
-            var result = service.LoadUnique(ms, parser).OrderBy(w => w.Date).ToList();
+            var result = service.LoadUnique((ms, parser)).OrderBy(w => w.Date).ToList();
 
             Assert.That(result, Has.Exactly(2).Items);
             Assert.That(d1, Is.EqualTo(result[0].Date));

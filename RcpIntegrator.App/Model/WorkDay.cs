@@ -15,9 +15,6 @@
             Date = date;
             EntryTime = entry;
             ExitTime = exit;
-
-            if (exit < entry)
-                throw new ArgumentException("ExitTime must be >= EntryTime.");
         }
 
         public TimeSpan Duration => ExitTime - EntryTime;
