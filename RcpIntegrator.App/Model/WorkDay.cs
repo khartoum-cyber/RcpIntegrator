@@ -1,6 +1,6 @@
 ﻿namespace RcpIntegrator.App.Model
 {
-    internal class WorkDay
+    public class WorkDay
     {
         public string Company { get; }
         public string EmployeeCode { get; }
