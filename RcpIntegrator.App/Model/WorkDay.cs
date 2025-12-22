@@ -16,5 +16,7 @@
             EntryTime = entry;
             ExitTime = exit;
         }
+
+        public override string ToString() =>  $"{Company} - {EmployeeCode}  {Date:yyyy-MM-dd}  {EntryTime} - {ExitTime}";
     }
 }

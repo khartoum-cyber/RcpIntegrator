@@ -19,7 +19,7 @@ namespace RcpIntegrator.App
             // Print
             foreach (var wd in workDays.OrderBy(w => w.Company).ThenBy(w => w.EmployeeCode).ThenBy(w => w.Date))
             {
-                Console.WriteLine(wd.EmployeeCode);
+                Console.WriteLine(wd);
             }
         }
     }
