@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36717.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcpIntegrator.App", "RcpIntegrator.App\RcpIntegrator.App.csproj", "{D73FA0BA-5D8F-44EE-9E63-094169CC43D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RcpIntegrator.Tests", "RcpIntegrator.Tests\RcpIntegrator.Tests.csproj", "{D9FE7E5C-8E2C-4396-A3E7-F7B9D1531BEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D73FA0BA-5D8F-44EE-9E63-094169CC43D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D73FA0BA-5D8F-44EE-9E63-094169CC43D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D73FA0BA-5D8F-44EE-9E63-094169CC43D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9FE7E5C-8E2C-4396-A3E7-F7B9D1531BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9FE7E5C-8E2C-4396-A3E7-F7B9D1531BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9FE7E5C-8E2C-4396-A3E7-F7B9D1531BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9FE7E5C-8E2C-4396-A3E7-F7B9D1531BEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
