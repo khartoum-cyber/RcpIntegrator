@@ -10,13 +10,18 @@
 
         public WorkDay(string company, string employeeCode, DateTime date, TimeSpan entry, TimeSpan exit)
         {
-            Company = company;
-            EmployeeCode = employeeCode;
+            Company = company ?? throw new ArgumentNullException(nameof(company));
+            EmployeeCode = employeeCode ?? throw new ArgumentNullException(nameof(employeeCode));
             Date = date;
             EntryTime = entry;
             ExitTime = exit;
+
+            if (exit < entry)
+                throw new ArgumentException("ExitTime must be >= EntryTime.");
         }
 
-        public override string ToString() =>  $"{Company} - {EmployeeCode}  {Date:yyyy-MM-dd}  {EntryTime} - {ExitTime}";
+        public TimeSpan Duration => ExitTime - EntryTime;
+
+        public override string ToString() =>  $"{Company} - {EmployeeCode}  {Date:yyyy-MM-dd}  {EntryTime} - {ExitTime} ({Duration})";
     }
 }
