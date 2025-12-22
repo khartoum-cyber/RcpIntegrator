@@ -17,6 +17,8 @@ namespace RcpIntegrator.App.Services.Parsers
                     continue;
 
                 var employeeCode = row[0].Trim();
+                if (string.IsNullOrEmpty(employeeCode)) 
+                    continue;
 
                 // ParseExact ?
                 if (!DateTime.TryParse(row[1].Trim(), out var date))
@@ -24,6 +26,9 @@ namespace RcpIntegrator.App.Services.Parsers
                 if (!TimeSpan.TryParse(row[2].Trim(), out var entryTime))
                     continue;
                 if (!TimeSpan.TryParse(row[3].Trim(), out var exitTime))
+                    continue;
+
+                if (exitTime < entryTime) 
                     continue;
 
                 yield return new WorkDay(CompanyName, employeeCode, date, entryTime, exitTime);
