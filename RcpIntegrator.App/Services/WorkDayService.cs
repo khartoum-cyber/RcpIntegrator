@@ -5,18 +5,21 @@ namespace RcpIntegrator.App.Services
 {
     public sealed class WorkDayService
     {
-        public IReadOnlyCollection<WorkDay> LoadUnique(Stream stream, IWorkDayParser parser)
+        public IReadOnlyCollection<WorkDay> LoadUnique(params (Stream stream, IWorkDayParser parser)[] sources)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
-            if (parser == null) throw new ArgumentNullException(nameof(parser));
+            if (sources == null) 
+                throw new ArgumentNullException(nameof(sources));
 
             var unique = new Dictionary<(string company, string code, DateTime date), WorkDay>();
 
-            foreach (var wd in parser.Parse(stream))
+            foreach (var (stream, parser) in sources)
             {
-                var key = (wd.Company, wd.EmployeeCode, wd.Date);
+                foreach (var wd in parser.Parse(stream))
+                {
+                    var key = (wd.Company, wd.EmployeeCode, wd.Date);
 
-                unique.TryAdd(key, wd);
+                    unique.TryAdd(key, wd);
+                }
             }
 
             return unique.Values.ToList();
