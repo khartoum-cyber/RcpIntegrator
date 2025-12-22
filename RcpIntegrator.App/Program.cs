@@ -7,14 +7,14 @@ namespace RcpIntegrator.App
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("RCP Integrator App");
 
             using var fs1 = File.OpenRead("rcp1.csv");
-            //using var fs2 = File.OpenRead("rcp2.csv");
+            using var fs2 = File.OpenRead("rcp2.csv");
 
             var service = new WorkDayService();
             var workDays = service.LoadUnique(
-                fs1, new Company1WorkDayParser());
+                (fs1, new Company1WorkDayParser()), (fs2, new Company2WorkDayParser()));
 
             // Print
             foreach (var wd in workDays.OrderBy(w => w.Company).ThenBy(w => w.EmployeeCode).ThenBy(w => w.Date))
