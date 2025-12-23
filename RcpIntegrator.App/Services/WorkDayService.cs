@@ -14,6 +14,11 @@ namespace RcpIntegrator.App.Services
 
             foreach (var (stream, parser) in sources)
             {
+                if (stream == null)
+                    throw new ArgumentNullException(nameof(stream));
+                if (parser == null)
+                    throw new ArgumentNullException(nameof(parser));
+
                 foreach (var wd in parser.Parse(stream))
                 {
                     var key = (wd.Company, wd.EmployeeCode, wd.Date);

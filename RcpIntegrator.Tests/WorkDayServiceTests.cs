@@ -35,8 +35,8 @@ namespace RcpIntegrator.Tests
         public void LoadUnique_DuplicatesByEmpCodeAndDate_FirstWins()
         {
             var date = new DateTime(2025, 12, 19);
-            var w1 = new WorkDay("Company1", "EMP001", date, TimeSpan.FromHours(8), TimeSpan.FromHours(16));
-            var w2 = new WorkDay("Company1", "EMP001", date, TimeSpan.FromHours(9), TimeSpan.FromHours(17)); // duplicate key
+            var w1 = new WorkDay("Company1", "3425", date, TimeSpan.FromHours(8), TimeSpan.FromHours(16));
+            var w2 = new WorkDay("Company1", "3425", date, TimeSpan.FromHours(9), TimeSpan.FromHours(17)); // duplicate key
 
             var parser = new FakeParser(new[] { w1, w2 });
             var service = new WorkDayService();
@@ -56,8 +56,8 @@ namespace RcpIntegrator.Tests
 
             var items = new[]
             {
-                new WorkDay("Company1", "EMP001", d1, TimeSpan.FromHours(8), TimeSpan.FromHours(16)),
-                new WorkDay("Company1", "EMP001", d2, TimeSpan.FromHours(8), TimeSpan.FromHours(16)),
+                new WorkDay("Company1", "3425", d1, TimeSpan.FromHours(8), TimeSpan.FromHours(16)),
+                new WorkDay("Company1", "3425", d2, TimeSpan.FromHours(8), TimeSpan.FromHours(16)),
             };
 
             var parser = new FakeParser(items);
