@@ -17,8 +17,24 @@
             ExitTime = exit;
         }
 
-        public TimeSpan Duration => ExitTime - EntryTime;
+        public DateTime Start => Date.Date + EntryTime;
 
-        public override string ToString() =>  $"{Company} - {EmployeeCode}  {Date:yyyy-MM-dd}  {EntryTime} - {ExitTime} ({Duration})";
+        public DateTime End => (ExitTime >= EntryTime)
+            ? Date.Date + ExitTime
+            : Date.Date.AddDays(1) + ExitTime;
+
+        public TimeSpan Duration => End - Start;
+
+
+        public override string ToString()
+        {
+            var sameDay = End.Date == Start.Date;
+
+            var endDisplay = sameDay
+                ? ExitTime.ToString()
+                : $"{End:yyyy-MM-dd} {ExitTime}";
+
+            return $"{Company} - {EmployeeCode}  {Date:yyyy-MM-dd}  {EntryTime} - {endDisplay} ({Duration})";
+        }
     }
 }

@@ -10,8 +10,8 @@ namespace RcpIntegrator.App.Services.Parsers
 
         public IEnumerable<WorkDay> Parse(Stream csvStream)
         {
-            // Group events: (code, date) -> list of (time, type)
-            var eventsByKey = new Dictionary<(string code, DateTime date), List<(TimeSpan time, string type)>>();
+            // Collect all events per employee across all dates
+            var byCode = new Dictionary<string, List<(DateTime when, string type)>>();
 
             foreach (var row in CsvReader.ReadSemicolonSeparated(csvStream))
             {
@@ -30,39 +30,59 @@ namespace RcpIntegrator.App.Services.Parsers
 
                 var type = row[3].Trim().ToUpperInvariant(); // "WE" or "WY"
 
-                var key = (code, date.Date);
-
-                if (!eventsByKey.ContainsKey(key))
-                {
-                    eventsByKey[key] = new List<(TimeSpan time, string type)>();
-                }
-
-                eventsByKey[key].Add((time, type));
-            }
-
-            // Build WorkDay per valid pair (one WE and one WY)
-            foreach (var kvp in eventsByKey)
-            {
-                var key = kvp.Key;
-                var events = kvp.Value;
-                var entryEvent = events.FirstOrDefault(e => e.type == "WE");
-                var exitEvent = events.FirstOrDefault(e => e.type == "WY");
-
-                if (exitEvent.time < entryEvent.time) 
+                if (type != "WE" && type != "WY")
                     continue;
 
-                // Must have both entry and exit
-                if (entryEvent.type == "WE" && exitEvent.type == "WY")
+                var when = date.Date + time;
+
+                if (!byCode.TryGetValue(code, out var list))
                 {
-                    yield return new WorkDay(
-                        CompanyName,
-                        key.code,
-                        key.date,
-                        entryEvent.time,
-                        exitEvent.time);
+                    list = new List<(DateTime when, string type)>();
+                    byCode[code] = list;
+                }
+
+                list.Add((when, type));
+
+            }
+
+
+            // For each employee, sort and pair WE -> next WY (even across days)
+            foreach (var (code, events) in byCode)
+            {
+                var ordered = events.OrderBy(e => e.when).ToList();
+
+                DateTime? openStart = null;
+
+                foreach (var (when, type) in ordered)
+                {
+                    if (type == "WE")
+                    {
+                        openStart = when;
+                    }
+                    else if (type == "WY")
+                    {
+                        if (openStart.HasValue && when > openStart.Value)
+                        {
+                            var start = openStart.Value;
+                            var end = when;
+                            var duration = end - start;
+
+                            // Sanity: positive and <= 24h
+                            if (duration > TimeSpan.Zero && duration <= TimeSpan.FromHours(24))
+                            {
+                                yield return new WorkDay(
+                                    CompanyName,
+                                    code,
+                                    start.Date,
+                                    start.TimeOfDay,
+                                    end.TimeOfDay);
+                            }
+
+                            openStart = null; // close the open shift
+                        }
+                    }
                 }
             }
         }
-
     }
 }
