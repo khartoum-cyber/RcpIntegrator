@@ -9,8 +9,13 @@ namespace RcpIntegrator.App
         {
             Console.WriteLine("RCP Integrator App");
 
-            using var fs1 = File.OpenRead("rcp1.csv");
-            using var fs2 = File.OpenRead("rcp2.csv");
+            var baseDir = AppContext.BaseDirectory;
+
+            var rcp1Path = Path.Combine(baseDir, "rcp1.csv");
+            var rcp2Path = Path.Combine(baseDir, "rcp2.csv");
+
+            using var fs1 = File.OpenRead(rcp1Path);
+            using var fs2 = File.OpenRead(rcp2Path);
 
             var service = new WorkDayService();
             var workDays = service.LoadUnique(
