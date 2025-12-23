@@ -3,7 +3,7 @@
     public class WorkDay
     {
         public string Company { get; }
-        public string EmployeeCode { get; }
+        public int EmployeeCode { get; }
         public DateTime Date { get; }
         public TimeSpan EntryTime { get; }
         public TimeSpan ExitTime { get; }
@@ -11,7 +11,7 @@
         public WorkDay(string company, string employeeCode, DateTime date, TimeSpan entry, TimeSpan exit)
         {
             Company = company ?? throw new ArgumentNullException(nameof(company));
-            EmployeeCode = employeeCode ?? throw new ArgumentNullException(nameof(employeeCode));
+            EmployeeCode = Convert.ToInt32(employeeCode);
             Date = date;
             EntryTime = entry;
             ExitTime = exit;

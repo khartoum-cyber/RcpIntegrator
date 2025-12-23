@@ -10,7 +10,7 @@ namespace RcpIntegrator.App.Services
             if (sources == null) 
                 throw new ArgumentNullException(nameof(sources));
 
-            var unique = new Dictionary<(string company, string code, DateTime date), WorkDay>();
+            var unique = new Dictionary<(string company, int code, DateTime date), WorkDay>();
 
             foreach (var (stream, parser) in sources)
             {
